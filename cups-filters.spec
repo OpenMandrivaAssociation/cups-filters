@@ -39,6 +39,7 @@ BuildRequires: pkgconfig(poppler-cpp)
 BuildRequires: pkgconfig(lcms2)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(fontconfig)
+BuildRequires: pkgconfig(ijs)
 BuildRequires: ghostscript-devel
 BuildRequires: cups-devel
 BuildRequires: python-cups
