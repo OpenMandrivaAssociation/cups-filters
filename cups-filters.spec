@@ -10,7 +10,7 @@
 %define scmrev %{nil}
 
 Name: cups-filters
-Version: 1.0.36
+Version: 1.0.38
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release: 1
@@ -29,7 +29,6 @@ Source0: %{name}-%{scmrev}.tar.xz
 %endif
 %endif
 Source1: cups-browsed.service
-Patch0: cups-filters-filter-costs.patch
 Summary: Print filters for use with CUPS
 URL: http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group: System/Printing
