@@ -174,10 +174,12 @@ install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
 
 %files -n %{cupsfiltersdevel}
 %{_includedir}/cupsfilters
-%{_libdir}/libcupsfilters.*
+%{_libdir}/libcupsfilters.so
+%{_libdir}/libcupsfilters.a
 %{_libdir}/pkgconfig/libcupsfilters.pc
 
 %files -n %{fontembeddevel}
 %{_includedir}/fontembed
-%{_libdir}/libfontembed.*
+%{_libdir}/libfontembed.so
+%{_libdir}/libfontembed.a
 %{_libdir}/pkgconfig/libfontembed.pc
