@@ -131,6 +131,7 @@ Daemon to allow printer browsing with old versions of cups.
 ./autogen.sh
 
 %configure \
+	--disable-static \
 	--with-pdftops=pdftops \
 	--without-rcdir
 
