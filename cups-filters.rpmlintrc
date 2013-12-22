@@ -1,0 +1,3 @@
+# Intentional -- the alleged devel files are header files used to
+# preprocess PPDs. They just share C syntax.
+addFilter("E: devel-file-in-non-devel-package")

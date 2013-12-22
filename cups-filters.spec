@@ -10,10 +10,10 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.0.38
+Version:	1.0.43
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	7
+Release:	1
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -29,6 +29,7 @@ Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %endif
 Source1:	cups-browsed.service
+Source100:	%{name}.rpmlintrc
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
@@ -140,6 +141,9 @@ Daemon to allow printer browsing with old versions of cups.
 
 %install
 %makeinstall_std
+
+# we get this from foomatic-filters
+rm -f %{buildroot}%{_mandir}/man1/foomatic-rip.1*
 
 # systemd unit file
 mkdir -p %{buildroot}%{_unitdir}
