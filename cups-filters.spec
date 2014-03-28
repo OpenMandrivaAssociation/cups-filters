@@ -13,7 +13,7 @@ Name:		cups-filters
 Version:	1.0.49
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -142,16 +142,20 @@ Daemon to allow printer browsing with old versions of cups.
 %install
 %makeinstall_std
 
-# we get this from foomatic-filters
-rm -f %{buildroot}%{_mandir}/man1/foomatic-rip.1*
-
 # systemd unit file
 mkdir -p %{buildroot}%{_unitdir}
 install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
 
+# Symlink for legacy ppds trying to talk to foomatic 2.x
+ln -s foomatic-rip %{buildroot}%{_prefix}/lib/cups/filter/cupsomatic
+
+# Symlink for making spooler-less command line use easier
+ln -s ../lib/cups/filter/foomatic-rip %{buildroot}%{_bindir}/
+
 %files
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/99pdftoopvp.conf
 %{_bindir}/ttfread
+%{_bindir}/foomatic-rip
 %{_prefix}/lib/cups/backend/*
 %{_prefix}/lib/cups/filter/*
 %{_datadir}/ppd/cupsfilters
@@ -161,6 +165,7 @@ install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
 %{_datadir}/cups/data/*
 %{_datadir}/cups/charsets/*
 %{_datadir}/cups/banners/*
+%{_mandir}/man1/foomatic-rip.1*
 
 %files -n cups-browsed
 %doc %{_docdir}/%{name}
