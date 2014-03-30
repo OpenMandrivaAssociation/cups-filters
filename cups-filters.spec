@@ -13,7 +13,7 @@ Name:		cups-filters
 Version:	1.0.49
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	2
+Release:	3
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -57,6 +57,7 @@ BuildRequires:	poppler
 License: GPLv2 and GPLv2+ and GPLv3 and GPLv3+ and LGPLv2+ and MIT
 # For pdftops
 Requires:	poppler
+Requires:	bc
 Conflicts:	cups < 1.7-0.rc1.2
 
 %track
