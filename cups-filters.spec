@@ -13,7 +13,7 @@ Name:		cups-filters
 Version:	1.0.49
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	3
+Release:	4
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -40,7 +40,7 @@ BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(ijs)
-BuildRequires:	ghostscript-devel
+BuildRequires:	ghostscript-devel >= 9.14
 BuildRequires:	cups-devel
 BuildRequires:	python-cups
 # pdftops needs to be found
