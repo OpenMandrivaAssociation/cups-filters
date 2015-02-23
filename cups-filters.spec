@@ -150,9 +150,6 @@ install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
 # Symlink for legacy ppds trying to talk to foomatic 2.x
 ln -s foomatic-rip %{buildroot}%{_prefix}/lib/cups/filter/cupsomatic
 
-# Symlink for making spooler-less command line use easier
-ln -s ../lib/cups/filter/foomatic-rip %{buildroot}%{_bindir}/
-
 %files
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/99pdftoopvp.conf
 %{_bindir}/ttfread
