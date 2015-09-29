@@ -59,6 +59,7 @@ License: GPLv2 and GPLv2+ and GPLv3 and GPLv3+ and LGPLv2+ and MIT
 Requires:	poppler
 Requires:	bc
 Conflicts:	cups < 1.7-0.rc1.2
+Requires(post,postun):	cups
 
 %track
 prog %{name} = {
