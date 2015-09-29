@@ -13,7 +13,7 @@ Name:		cups-filters
 Version:	1.0.75
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -149,6 +149,20 @@ install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
 
 # Symlink for legacy ppds trying to talk to foomatic 2.x
 ln -s foomatic-rip %{buildroot}%{_prefix}/lib/cups/filter/cupsomatic
+
+%post
+# Restart the CUPS daemon when it is running, but do not start it when it
+# is not running.
+/bin/systemctl try-restart cups.socket ||:
+/bin/systemctl try-restart cups.path ||:
+/bin/systemctl try-restart cups.service ||:
+
+%postun
+if [ $1 -eq 1 ]; then
+	/bin/systemctl try-restart cups.socket ||:
+    /bin/systemctl try-restart cups.path ||:
+    /bin/systemctl try-restart cups.service ||:
+fi
 
 %files
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/99pdftoopvp.conf
