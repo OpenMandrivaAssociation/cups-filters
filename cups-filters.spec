@@ -82,8 +82,8 @@ of CUPS 1.5.x and older.
 %package devel
 Summary:	Development files for %{name}
 Group:		Development/C
-Requires:	%{fontembeddevel} = %EVRD
-Requires:	%{cupsfiltersdevel} = %EVRD
+Requires:	%{fontembeddevel} = %{EVRD}
+Requires:	%{cupsfiltersdevel} = %{EVRD}
 
 %description devel
 Development files for %{name}.
@@ -174,10 +174,12 @@ fi
 %{_datadir}/ppd/cupsfilters
 %{_datadir}/cups/ppdc/*
 %{_datadir}/cups/mime/cupsfilters.*
+%{_datadir}/cups/mime/braille.*
 %{_datadir}/cups/drv/*
 %{_datadir}/cups/data/*
 %{_datadir}/cups/charsets/*
 %{_datadir}/cups/banners/*
+%{_datadir}/cups/braille/*
 %{_mandir}/man1/foomatic-rip.1*
 
 %files -n cups-browsed
