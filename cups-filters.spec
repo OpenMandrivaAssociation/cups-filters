@@ -10,10 +10,10 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.8.2
+Version:	1.8.3
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	2
+Release:	1
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -174,6 +174,7 @@ fi
 %{_datadir}/ppd/cupsfilters
 %{_datadir}/cups/ppdc/*
 %{_datadir}/cups/mime/cupsfilters.*
+%{_datadir}/cups/mime/cupsfilters-ghostscript.convs
 %{_datadir}/cups/mime/braille.*
 %{_datadir}/cups/drv/*
 %{_datadir}/cups/data/*
