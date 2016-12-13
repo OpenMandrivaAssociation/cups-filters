@@ -45,6 +45,7 @@ BuildRequires:	cups-devel
 BuildRequires:	python-cups
 # pdftops needs to be found
 BuildRequires:	poppler
+BuildRequires:	mupdf
 # For a breakdown of the licensing, see COPYING file
 # GPLv2:   filters: commandto*, imagetoraster, pdftops, rasterto*,
 #                   imagetopdf, pstopdf, texttopdf
