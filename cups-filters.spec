@@ -170,11 +170,15 @@ fi
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/99pdftoopvp.conf
 %{_bindir}/ttfread
 %{_bindir}/foomatic-rip
+%{_bindir}/driverless
 %{_prefix}/lib/cups/backend/*
+%{_prefix}/lib/cups/driver/*
 %{_prefix}/lib/cups/filter/*
 %{_datadir}/ppd/cupsfilters
 %{_datadir}/cups/ppdc/*
 %{_datadir}/cups/mime/cupsfilters.*
+%{_datadir}/cups/mime/cupsfilters-mupdf.convs
+%{_datadir}/cups/mime/cupsfilters-poppler.convs
 %{_datadir}/cups/mime/cupsfilters-ghostscript.convs
 %{_datadir}/cups/mime/braille.*
 %{_datadir}/cups/drv/*
@@ -183,6 +187,7 @@ fi
 %{_datadir}/cups/banners/*
 %{_datadir}/cups/braille/*
 %{_mandir}/man1/foomatic-rip.1*
+%{_mandir}/man1/driverless.1*
 
 %files -n cups-browsed
 %doc %{_docdir}/%{name}
