@@ -1,3 +1,5 @@
+%define _disable_lto 1
+
 %define fontembed_major 1
 %define cupsfilters_major 1
 
@@ -10,7 +12,7 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.13.2
+Version:	1.14.1
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release:	1
