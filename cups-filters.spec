@@ -1,3 +1,5 @@
+%define _disable_lto 1
+
 %define fontembed_major 1
 %define cupsfilters_major 1
 
@@ -10,7 +12,7 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.8.3
+Version:	1.17.3
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release:	1
@@ -45,6 +47,7 @@ BuildRequires:	cups-devel
 BuildRequires:	python-cups
 # pdftops needs to be found
 BuildRequires:	poppler
+BuildRequires:	mupdf
 # For a breakdown of the licensing, see COPYING file
 # GPLv2:   filters: commandto*, imagetoraster, pdftops, rasterto*,
 #                   imagetopdf, pstopdf, texttopdf
@@ -169,11 +172,15 @@ fi
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/99pdftoopvp.conf
 %{_bindir}/ttfread
 %{_bindir}/foomatic-rip
+%{_bindir}/driverless
 %{_prefix}/lib/cups/backend/*
+%{_prefix}/lib/cups/driver/*
 %{_prefix}/lib/cups/filter/*
 %{_datadir}/ppd/cupsfilters
 %{_datadir}/cups/ppdc/*
 %{_datadir}/cups/mime/cupsfilters.*
+%{_datadir}/cups/mime/cupsfilters-mupdf.convs
+%{_datadir}/cups/mime/cupsfilters-poppler.convs
 %{_datadir}/cups/mime/cupsfilters-ghostscript.convs
 %{_datadir}/cups/mime/braille.*
 %{_datadir}/cups/drv/*
@@ -182,6 +189,7 @@ fi
 %{_datadir}/cups/banners/*
 %{_datadir}/cups/braille/*
 %{_mandir}/man1/foomatic-rip.1*
+%{_mandir}/man1/driverless.1*
 
 %files -n cups-browsed
 %doc %{_docdir}/%{name}
