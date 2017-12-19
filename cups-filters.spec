@@ -12,7 +12,7 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.17.9
+Version:	1.18.0
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release:	1
@@ -169,7 +169,6 @@ if [ $1 -eq 1 ]; then
 fi
 
 %files
-%config(noreplace) %{_sysconfdir}/fonts/conf.d/99pdftoopvp.conf
 %{_bindir}/ttfread
 %{_bindir}/foomatic-rip
 %{_bindir}/driverless
