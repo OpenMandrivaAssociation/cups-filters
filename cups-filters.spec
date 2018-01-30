@@ -12,7 +12,7 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.19.0
+Version:	1.20.0
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release:	1
