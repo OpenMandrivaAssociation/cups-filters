@@ -64,13 +64,6 @@ Requires:	bc
 Conflicts:	cups < 1.7-0.rc1.2
 Requires(post,postun):	cups
 
-%track
-prog %{name} = {
-	url = http://openprinting.org/download/%name/
-	regex = %name-(__VER__)\.tar\.xz
-	version = %{version}
-}
-
 %description
 This project provides backends, filters, and other software that was once part
 of the core CUPS distribution but is no longer maintained by Apple Inc.
