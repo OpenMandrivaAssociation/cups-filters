@@ -15,10 +15,10 @@ Name:		cups-filters
 Version:	1.20.3
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
-Release:	1.%{scmrev}.1
+Release:	0.%{scmrev}.1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %else
