@@ -12,13 +12,13 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.20.0
+Version:	1.20.3
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
-Release:	1.%{scmrev}.1
+Release:	0.%{scmrev}.1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %else
@@ -63,13 +63,6 @@ Requires:	poppler
 Requires:	bc
 Conflicts:	cups < 1.7-0.rc1.2
 Requires(post,postun):	cups
-
-%track
-prog %{name} = {
-	url = http://openprinting.org/download/%name/
-	regex = %name-(__VER__)\.tar\.xz
-	version = %{version}
-}
 
 %description
 This project provides backends, filters, and other software that was once part
