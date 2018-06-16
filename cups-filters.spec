@@ -42,6 +42,7 @@ BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(ijs)
+BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	ghostscript-devel >= 9.14
 BuildRequires:	cups-devel
 BuildRequires:	python-cups
