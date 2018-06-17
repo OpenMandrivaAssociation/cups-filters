@@ -35,6 +35,7 @@ Source100:	%{name}.rpmlintrc
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
+BuildRequires:	pkgconfig(com_err)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libqpdf)
 BuildRequires:	pkgconfig(poppler)
