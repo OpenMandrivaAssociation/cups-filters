@@ -42,7 +42,7 @@ BuildRequires:	pkgconfig(poppler-cpp)
 BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fontconfig)
-BuildRequires:	pkgconfig(ijs
+BuildRequires:	pkgconfig(ijs)
 BuildRequires: pkgconfig(krb5)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(avahi-client)
