@@ -44,7 +44,7 @@ BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(ijs)
-BuildRequires: pkgconfig(krb5)
+BuildRequires:	pkgconfig(krb5)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(avahi-client)
 BuildRequires:	ghostscript-devel >= 9.14
@@ -191,10 +191,10 @@ fi
 %files -n cups-browsed
 %doc %{_docdir}/%{name}
 %config(noreplace) %{_sysconfdir}/cups/cups-browsed.conf
+%{_unitdir}/cups-browsed.service
 %{_sbindir}/cups-browsed
 %{_mandir}/man5/cups-browsed.conf.5*
 %{_mandir}/man8/cups-browsed.8*
-%{_unitdir}/cups-browsed.service
 
 %files -n %{cupsfilters}
 %{_libdir}/libcupsfilters.so.%{cupsfilters_major}*
