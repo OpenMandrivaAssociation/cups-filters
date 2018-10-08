@@ -146,8 +146,8 @@ Daemon to allow printer browsing with old versions of cups.
 %makeinstall_std
 
 # systemd unit file
-mkdir -p %{buildroot}%{_systemunitdir}
-install -p -m 644 %{SOURCE1} %{buildroot}%{_systemunitdir}
+mkdir -p %{buildroot}%{_unitdir}
+install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
 
 # Symlink for legacy ppds trying to talk to foomatic 2.x
 ln -s foomatic-rip %{buildroot}%{_prefix}/lib/cups/filter/cupsomatic
@@ -191,7 +191,7 @@ fi
 %files -n cups-browsed
 %doc %{_docdir}/%{name}
 %config(noreplace) %{_sysconfdir}/cups/cups-browsed.conf
-%{_systemunitdir}/cups-browsed.service
+%{_unitdir}/cups-browsed.service
 %{_sbindir}/cups-browsed
 %{_mandir}/man5/cups-browsed.conf.5*
 %{_mandir}/man8/cups-browsed.8*
