@@ -15,7 +15,7 @@ Name:		cups-filters
 Version:	1.21.3
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	1.%{scmrev}.1
@@ -131,7 +131,7 @@ Daemon to allow printer browsing with old versions of cups.
 %else
 %setup -q -n %{name}
 %endif
-%apply_patches
+%autopatch -p1
 ./autogen.sh
 
 %configure \
@@ -140,10 +140,10 @@ Daemon to allow printer browsing with old versions of cups.
 	--without-rcdir
 
 %build
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 # systemd unit file
 mkdir -p %{buildroot}%{_unitdir}
