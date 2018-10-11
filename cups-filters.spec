@@ -15,10 +15,10 @@ Name:		cups-filters
 Version:	1.21.3
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	2
+Release:	3
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
-Release:	1.%{scmrev}.1
+Release:	0.%{scmrev}.1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %else
@@ -32,6 +32,8 @@ Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 Source1:	cups-browsed.service
 Source100:	%{name}.rpmlintrc
+# Fix build with Poppler 0.69+
+Patch0:		https://github.com/OpenPrinting/cups-filters/commit/6b0747c1630dd973acd138f927dbded4ea45e360.patch
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
@@ -127,11 +129,10 @@ Daemon to allow printer browsing with old versions of cups.
 
 %prep
 %if "%{scmrev}" == ""
-%setup -q -n %{name}-%{version}%{beta}
+%autosetup -p1 -n %{name}-%{version}%{beta}
 %else
-%setup -q -n %{name}
+%autosetup -p1 -n %{name}
 %endif
-%autopatch -p1
 ./autogen.sh
 
 %configure \
