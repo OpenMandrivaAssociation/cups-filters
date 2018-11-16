@@ -36,6 +36,7 @@ Source100:	%{name}.rpmlintrc
 Patch0:		https://github.com/OpenPrinting/cups-filters/commit/6b0747c1630dd973acd138f927dbded4ea45e360.patch
 Patch1:		https://github.com/OpenPrinting/cups-filters/commit/3f81ab1ddcf4053084bc1d8a5bab3b62e920d4fe.patch
 Patch2:		https://github.com/OpenPrinting/cups-filters/commit/ca91135428826e389d44eb8d267be1458eb8645b.patch
+Patch3:		cups-filters-poppler-0.71.patch
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
