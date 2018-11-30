@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   cups-filters-1.21.3.tar.xz: 5164f21a78a425b19c375f86be4e9159f970ac52
+sources:
+  cups-filters-1.21.4.tar.xz: 6f269a5b6f37260a2f80357678215106cb85d340
