@@ -12,10 +12,10 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.20.3
+Version:	1.21.4
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	2
+Release:	1
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -32,9 +32,12 @@ Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 Source1:	cups-browsed.service
 Source100:	%{name}.rpmlintrc
+Patch3:		cups-filters-poppler-0.71.patch
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
+BuildRequires:	pkgconfig(com_err)
+BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libqpdf)
 BuildRequires:	pkgconfig(poppler)
 BuildRequires:	pkgconfig(poppler-cpp)
@@ -42,6 +45,9 @@ BuildRequires:	pkgconfig(lcms2)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(ijs)
+BuildRequires:	pkgconfig(krb5)
+BuildRequires:	pkgconfig(libtiff-4)
+BuildRequires:	pkgconfig(avahi-client)
 BuildRequires:	ghostscript-devel >= 9.14
 BuildRequires:	cups-devel
 BuildRequires:	python-cups
@@ -122,11 +128,10 @@ Daemon to allow printer browsing with old versions of cups.
 
 %prep
 %if "%{scmrev}" == ""
-%setup -q -n %{name}-%{version}%{beta}
+%autosetup -p1 -n %{name}-%{version}%{beta}
 %else
-%setup -q -n %{name}
+%autosetup -p1 -n %{name}
 %endif
-%apply_patches
 ./autogen.sh
 
 %configure \
@@ -135,10 +140,10 @@ Daemon to allow printer browsing with old versions of cups.
 	--without-rcdir
 
 %build
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 # systemd unit file
 mkdir -p %{buildroot}%{_unitdir}
@@ -186,10 +191,10 @@ fi
 %files -n cups-browsed
 %doc %{_docdir}/%{name}
 %config(noreplace) %{_sysconfdir}/cups/cups-browsed.conf
+%{_unitdir}/cups-browsed.service
 %{_sbindir}/cups-browsed
 %{_mandir}/man5/cups-browsed.conf.5*
 %{_mandir}/man8/cups-browsed.8*
-%{_unitdir}/cups-browsed.service
 
 %files -n %{cupsfilters}
 %{_libdir}/libcupsfilters.so.%{cupsfilters_major}*
