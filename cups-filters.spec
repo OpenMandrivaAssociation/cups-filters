@@ -128,10 +128,11 @@ Daemon to allow printer browsing with old versions of cups.
 
 %prep
 %if "%{scmrev}" == ""
-%autosetup -p1 -n %{name}-%{version}%{beta}
+%setup -qn %{name}-%{version}%{beta}
 %else
-%autosetup -p1 -n %{name}
+%setup -qn %{name}
 %endif
+%apply_patches
 ./autogen.sh
 
 %configure \
