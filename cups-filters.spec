@@ -12,13 +12,13 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.21.3
+Version:	1.21.4
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	5
+Release:	1
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
-Release:	0.%{scmrev}.1
+Release:	1.%{scmrev}.1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %else
@@ -33,9 +33,6 @@ Source0:	%{name}-%{scmrev}.tar.xz
 Source1:	cups-browsed.service
 Source100:	%{name}.rpmlintrc
 # Fix build with Poppler 0.69+
-Patch0:		https://github.com/OpenPrinting/cups-filters/commit/6b0747c1630dd973acd138f927dbded4ea45e360.patch
-Patch1:		https://github.com/OpenPrinting/cups-filters/commit/3f81ab1ddcf4053084bc1d8a5bab3b62e920d4fe.patch
-Patch2:		https://github.com/OpenPrinting/cups-filters/commit/ca91135428826e389d44eb8d267be1458eb8645b.patch
 Patch3:		cups-filters-poppler-0.71.patch
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
