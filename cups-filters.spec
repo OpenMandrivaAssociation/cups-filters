@@ -12,7 +12,7 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.25.5
+Version:	1.25.6
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release:	1
@@ -49,6 +49,7 @@ BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(avahi-client)
 BuildRequires:	ghostscript-devel >= 9.14
 BuildRequires:	cups-devel
+BuildRequires:	gettext-devel
 BuildRequires:	python-cups
 # pdftops needs to be found
 BuildRequires:	poppler
