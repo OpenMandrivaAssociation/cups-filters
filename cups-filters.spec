@@ -15,7 +15,7 @@ Name:		cups-filters
 Version:	1.25.11
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	1
