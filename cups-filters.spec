@@ -12,10 +12,10 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.25.11
+Version:	1.25.12
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	2
+Release:	1
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	1
