@@ -15,7 +15,7 @@ Name:		cups-filters
 Version:	1.27.4
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	2
+Release:	1
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
@@ -47,6 +47,7 @@ BuildRequires:	pkgconfig(ijs)
 BuildRequires:	pkgconfig(krb5)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(avahi-client)
+BuildRequires:	font(dejavusans)
 BuildRequires:	ghostscript-devel >= 9.14
 BuildRequires:	cups-devel
 BuildRequires:	gettext-devel
@@ -54,6 +55,7 @@ BuildRequires:	python-cups
 # pdftops needs to be found
 BuildRequires:	poppler
 BuildRequires:	mupdf
+Requires:	font(dejavusans)
 # For a breakdown of the licensing, see COPYING file
 # GPLv2:   filters: commandto*, imagetoraster, pdftops, rasterto*,
 #                   imagetopdf, pstopdf, texttopdf
