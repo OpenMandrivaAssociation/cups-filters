@@ -12,7 +12,7 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.27.5
+Version:	1.28.2
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
 Release:	1
@@ -172,6 +172,7 @@ fi
 %{_bindir}/ttfread
 %{_bindir}/foomatic-rip
 %{_bindir}/driverless
+%{_bindir}/driverless-fax
 %{_prefix}/lib/cups/backend/*
 %{_prefix}/lib/cups/driver/*
 %{_prefix}/lib/cups/filter/*
