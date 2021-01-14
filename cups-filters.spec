@@ -15,7 +15,7 @@ Name:		cups-filters
 Version:	1.28.7
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	1
@@ -157,15 +157,15 @@ ln -s foomatic-rip %{buildroot}%{_prefix}/lib/cups/filter/cupsomatic
 %post
 # Restart the CUPS daemon when it is running, but do not start it when it
 # is not running.
-/bin/systemctl try-restart cups.socket ||:
-/bin/systemctl try-restart cups.path ||:
-/bin/systemctl try-restart cups.service ||:
+/bin/systemctl try-restart --quiet cups.socket ||:
+/bin/systemctl try-restart --quiet cups.path ||:
+/bin/systemctl try-restart --quiet cups.service ||:
 
 %postun
 if [ $1 -eq 1 ]; then
-	/bin/systemctl try-restart cups.socket ||:
-    /bin/systemctl try-restart cups.path ||:
-    /bin/systemctl try-restart cups.service ||:
+    /bin/systemctl try-restart --quiet cups.socket ||:
+    /bin/systemctl try-restart --quiet cups.path ||:
+    /bin/systemctl try-restart --quiet cups.service ||:
 fi
 
 %files
