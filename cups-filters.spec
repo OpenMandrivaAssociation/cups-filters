@@ -12,26 +12,27 @@
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.28.10
+Version:	1.28.11
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	2
+Release:	1
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
-Release:	2
+Release:	1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %else
 %if "%{scmrev}" == ""
-Release:	2
+Release:	1
 Source0:	%{name}-%{version}%{beta}.tar.bz2
 %else
-Release:	2
+Release:	1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %endif
 Source1:	cups-browsed.service
 Source100:	%{name}.rpmlintrc
+Patch0:		cups-filters-1.28.11-clangwarnings.patch
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
