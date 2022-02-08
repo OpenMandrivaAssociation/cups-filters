@@ -15,7 +15,7 @@ Name:		cups-filters
 Version:	1.28.11
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
 Release:	1
@@ -30,7 +30,6 @@ Release:	1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %endif
-Source1:	cups-browsed.service
 Source100:	%{name}.rpmlintrc
 Patch0:		cups-filters-1.28.11-clangwarnings.patch
 Summary:	Print filters for use with CUPS
@@ -140,7 +139,10 @@ Daemon to allow printer browsing with old versions of cups.
 %configure \
 	--disable-static \
 	--with-pdftops=pdftops \
-	--without-rcdir
+	--without-rcdir \
+	--enable-avahi \
+	--with-browseremoteprotocols=DNSSD,CUPS \
+	--enable-auto-setup-driverless
 
 %build
 %make_build
@@ -150,7 +152,7 @@ Daemon to allow printer browsing with old versions of cups.
 
 # systemd unit file
 mkdir -p %{buildroot}%{_unitdir}
-install -p -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
+install -p -m 644 utils/cups-browsed.service %{buildroot}%{_unitdir}
 
 # Symlink for legacy ppds trying to talk to foomatic 2.x
 ln -s foomatic-rip %{buildroot}%{_prefix}/lib/cups/filter/cupsomatic
