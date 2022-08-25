@@ -47,6 +47,7 @@ BuildRequires:	pkgconfig(ijs)
 BuildRequires:	pkgconfig(krb5)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(avahi-client)
+BuildRequires:	pkgconfig(libexif)
 BuildRequires:	font(dejavusans)
 BuildRequires:	ghostscript-devel >= 9.14
 BuildRequires:	cups-devel
