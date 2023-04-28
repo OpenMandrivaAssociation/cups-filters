@@ -3,9 +3,11 @@
 %define fontembed_major 1
 %define cupsfilters_major 1
 
-%define fontembed %mklibname fontembed %{fontembed_major}
+%define oldfontembed %mklibname fontembed 1
+%define fontembed %mklibname fontembed
 %define fontembeddevel %mklibname fontembed -d
-%define cupsfilters %mklibname cupsfilters %{cupsfilters_major}
+%define oldcupsfilters %mklibname cupsfilters 1
+%define cupsfilters %mklibname cupsfilters
 %define cupsfiltersdevel %mklibname cupsfilters -d
 
 %define beta %{nil}
@@ -15,10 +17,10 @@ Name:		cups-filters
 Version:	1.28.16
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	10
+Release:	11
 Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
 %else
-Release:	1.%{scmrev}.1
+Release:	0.%{scmrev}.1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %else
@@ -26,12 +28,14 @@ Source0:	%{name}-%{scmrev}.tar.xz
 Release:	0.%{beta}.1
 Source0:	%{name}-%{version}%{beta}.tar.bz2
 %else
-Release:	1.%{scmrev}.1
+Release:	0.%{scmrev}.1
 Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %endif
 Source100:	%{name}.rpmlintrc
 Patch0:		cups-filters-1.28.11-clangwarnings.patch
+# Can't use C++17 string_view in C++11 mode with clang 16...
+Patch1:		cups-filters-c++17.patch
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
@@ -96,6 +100,7 @@ Development files for %{name}.
 %package -n %{fontembed}
 Summary:	The fontembed library, part of %{name}
 Group:		System/Libraries
+%rename %{oldfontembed}
 
 %description -n %{fontembed}
 The fontembed library, part of %{name}.
@@ -110,6 +115,7 @@ Development files for the fontembed library, part of %{name}.
 %package -n %{cupsfilters}
 Summary:	The cupsfilters library, part of %{name}
 Group:		System/Libraries
+%rename %{oldcupsfilters}
 
 %description -n %{cupsfilters}
 The cupsfilters library, part of %{name}.

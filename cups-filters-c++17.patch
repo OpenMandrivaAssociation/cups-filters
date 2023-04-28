@@ -1,0 +1,12 @@
+diff -up cups-filters-1.28.16/Makefile.am.omv~ cups-filters-1.28.16/Makefile.am
+--- cups-filters-1.28.16/Makefile.am.omv~	2023-04-28 21:21:09.569235158 +0200
++++ cups-filters-1.28.16/Makefile.am	2023-04-28 21:22:48.986952343 +0200
+@@ -528,7 +528,7 @@ pdftopdf_SOURCES = \
+ pdftopdf_CFLAGS = \
+ 	$(LIBQPDF_CFLAGS) \
+ 	$(CUPS_CFLAGS)
+-pdftopdf_CXXFLAGS = -std=c++0x $(pdftopdf_CFLAGS)   # -std=c++11
++pdftopdf_CXXFLAGS = -std=c++17 $(pdftopdf_CFLAGS)   # -std=c++11
+ pdftopdf_LDADD = \
+ 	$(LIBQPDF_LIBS) \
+ 	$(CUPS_LIBS)
