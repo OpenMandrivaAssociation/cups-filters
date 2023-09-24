@@ -1,24 +1,13 @@
-%define _disable_lto 1
-
-%define fontembed_major 1
-%define cupsfilters_major 1
-
-%define oldfontembed %mklibname fontembed 1
-%define fontembed %mklibname fontembed
-%define fontembeddevel %mklibname fontembed -d
-%define oldcupsfilters %mklibname cupsfilters 1
-%define cupsfilters %mklibname cupsfilters
-%define cupsfiltersdevel %mklibname cupsfilters -d
-
+#define _disable_lto 1
 %define beta %{nil}
 %define scmrev %{nil}
 
 Name:		cups-filters
-Version:	1.28.16
+Version:	2.0.0
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	11
-Source0:	http://openprinting.org/download/%name/%{name}-%{version}.tar.xz
+Release:	1
+Source0:	https://github.com/OpenPrinting/cups-filters/releases/download/%{version}/cups-filters-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}.1
 Source0:	%{name}-%{scmrev}.tar.xz
@@ -35,7 +24,7 @@ Source0:	%{name}-%{scmrev}.tar.xz
 Source100:	%{name}.rpmlintrc
 Patch0:		cups-filters-1.28.11-clangwarnings.patch
 # Can't use C++17 string_view in C++11 mode with clang 16...
-Patch1:		cups-filters-c++17.patch
+#Patch1:		cups-filters-c++17.patch
 Summary:	Print filters for use with CUPS
 URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
@@ -52,6 +41,8 @@ BuildRequires:	pkgconfig(krb5)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(avahi-client)
 BuildRequires:	pkgconfig(libexif)
+BuildRequires:	pkgconfig(libcupsfilters) >= 2.0.0
+BuildRequires:	pkgconfig(libppd)
 BuildRequires:	font(dejavusans)
 BuildRequires:	ghostscript-devel >= 9.14
 BuildRequires:	cups-devel
@@ -68,9 +59,8 @@ Requires:	font(dejavusans)
 # GPLv2+:  filters: gstopxl, textonly, texttops, imagetops
 # GPLv3:   filters: bannertopdf
 # GPLv3+:  filters: urftopdf
-# LGPLv2+:   utils: cups-browsed
 # MIT:     filters: gstoraster, pdftoijs, pdftoopvp, pdftopdf, pdftoraster
-License: GPLv2 and GPLv2+ and GPLv3 and GPLv3+ and LGPLv2+ and MIT
+License: GPLv2 and GPLv2+ and GPLv3 and GPLv3+ and MIT
 # For pdftops
 Requires:	poppler
 Requires:	bc
@@ -87,53 +77,6 @@ workflow introduced by OpenPrinting and a daemon to browse Bonjour broadcasts
 of remote CUPS printers to make these printers available locally and to
 provide backward compatibility to the old CUPS broadcasting and browsing
 of CUPS 1.5.x and older.
-
-%package devel
-Summary:	Development files for %{name}
-Group:		Development/C
-Requires:	%{fontembeddevel} = %{EVRD}
-Requires:	%{cupsfiltersdevel} = %{EVRD}
-
-%description devel
-Development files for %{name}.
-
-%package -n %{fontembed}
-Summary:	The fontembed library, part of %{name}
-Group:		System/Libraries
-%rename %{oldfontembed}
-
-%description -n %{fontembed}
-The fontembed library, part of %{name}.
-
-%package -n %{fontembeddevel}
-Summary:	Development files for the fontembed library, part of %{name}
-Group:		Development/C
-
-%description -n %{fontembeddevel}
-Development files for the fontembed library, part of %{name}.
-
-%package -n %{cupsfilters}
-Summary:	The cupsfilters library, part of %{name}
-Group:		System/Libraries
-%rename %{oldcupsfilters}
-
-%description -n %{cupsfilters}
-The cupsfilters library, part of %{name}.
-
-%package -n %{cupsfiltersdevel}
-Summary:	Development files for the cupsfilters library, part of %{name}
-Group:		Development/C
-
-%description -n %{cupsfiltersdevel}
-Development files for the cupsfilters library, part of %{name}.
-
-%package -n cups-browsed
-Summary:	Daemon to allow printer browsing with old versions of cups
-Group:		System/Printing
-BuildRequires:	pkgconfig(avahi-glib)
-
-%description -n cups-browsed
-Daemon to allow printer browsing with old versions of cups.
 
 %prep
 %if "%{scmrev}" == ""
@@ -157,10 +100,6 @@ Daemon to allow printer browsing with old versions of cups.
 %install
 %make_install
 
-# systemd unit file
-mkdir -p %{buildroot}%{_unitdir}
-install -p -m 644 utils/cups-browsed.service %{buildroot}%{_unitdir}
-
 # Symlink for legacy ppds trying to talk to foomatic 2.x
 ln -s foomatic-rip %{buildroot}%{_prefix}/lib/cups/filter/cupsomatic
 
@@ -179,6 +118,7 @@ if [ $1 -eq 1 ]; then
 fi
 
 %files
+%doc %{_docdir}/%{name}
 %{_bindir}/foomatic-rip
 %{_bindir}/driverless
 %{_bindir}/driverless-fax
@@ -186,42 +126,9 @@ fi
 %{_prefix}/lib/cups/driver/*
 %{_prefix}/lib/cups/filter/*
 %{_datadir}/ppd/cupsfilters
-%{_datadir}/cups/ppdc/*
+%{_datadir}/cups/mime/cupsfilters-universal*
 %{_datadir}/cups/mime/cupsfilters.*
-%{_datadir}/cups/mime/cupsfilters-mupdf.convs
-%{_datadir}/cups/mime/cupsfilters-poppler.convs
-%{_datadir}/cups/mime/cupsfilters-ghostscript.convs
-%{_datadir}/cups/mime/braille.*
 %{_datadir}/cups/drv/*
-%{_datadir}/cups/data/*
-%{_datadir}/cups/charsets/*
-%{_datadir}/cups/banners/*
-%{_datadir}/cups/braille/*
 %{_mandir}/man1/foomatic-rip.1*
 %{_mandir}/man1/driverless.1*
-
-%files -n cups-browsed
-%doc %{_docdir}/%{name}
-%config(noreplace) %{_sysconfdir}/cups/cups-browsed.conf
-%{_unitdir}/cups-browsed.service
-%{_sbindir}/cups-browsed
-%{_mandir}/man5/cups-browsed.conf.5*
-%{_mandir}/man8/cups-browsed.8*
-
-%files -n %{cupsfilters}
-%{_libdir}/libcupsfilters.so.%{cupsfilters_major}*
-
-%files -n %{fontembed}
-%{_libdir}/libfontembed.so.%{fontembed_major}*
-
-%files devel
-
-%files -n %{cupsfiltersdevel}
-%{_includedir}/cupsfilters
-%{_libdir}/libcupsfilters.so
-%{_libdir}/pkgconfig/libcupsfilters.pc
-
-%files -n %{fontembeddevel}
-%{_includedir}/fontembed
-%{_libdir}/libfontembed.so
-%{_libdir}/pkgconfig/libfontembed.pc
+%{_datadir}/ppdc
