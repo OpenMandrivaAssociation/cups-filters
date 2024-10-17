@@ -26,7 +26,7 @@ Patch0:		cups-filters-1.28.11-clangwarnings.patch
 # Can't use C++17 string_view in C++11 mode with clang 16...
 #Patch1:		cups-filters-c++17.patch
 Summary:	Print filters for use with CUPS
-URL:		http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
+URL:		https://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
 BuildRequires:	pkgconfig(com_err)
 BuildRequires:	pkgconfig(dbus-1)
