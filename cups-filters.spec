@@ -28,6 +28,11 @@ Patch0:		cups-filters-1.28.11-clangwarnings.patch
 Summary:	Print filters for use with CUPS
 URL:		https://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(com_err)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libqpdf)
