@@ -1,0 +1,24 @@
+From c5ea5f5cf3198ca4f63889f818fac966700604ee Mon Sep 17 00:00:00 2001
+From: zdohnal <zdohnal@redhat.com>
+Date: Wed, 30 Jul 2025 13:55:30 +0200
+Subject: [PATCH] foomatic-rip: `rip_die()` did not relay error to cupsd (#649)
+
+The function which is used to report error was using incorrect format
+for cupsd to process it as error, causing hiding its error messages.
+---
+ filter/foomatic-rip/util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/filter/foomatic-rip/util.c b/filter/foomatic-rip/util.c
+index 508bc0958..ad79fbf9c 100644
+--- a/filter/foomatic-rip/util.c
++++ b/filter/foomatic-rip/util.c
+@@ -76,7 +76,7 @@ rip_die(int status,
+ {
+   va_list ap;
+ 
+-  _log("Process is dying with \"");
++  _log("ERROR: Process is dying with \"");
+   va_start(ap, msg);
+   _logv(msg, ap);
+   va_end(ap);

@@ -1,0 +1,95 @@
+From 6f811dc27a0de8a731bc85097a181a056454f7dd Mon Sep 17 00:00:00 2001
+From: Nathan Muggli <muggli.nathan@gmail.com>
+Date: Wed, 19 Mar 2025 01:52:45 -0600
+Subject: [PATCH] Add a configure option for texttopdf filter (#630)
+
+Add --enable-texttopdf/--disable-texttopdf configure options.  If this
+is enabled, build the texttopdf filter. If not enabled, don't build that
+filter.
+
+If texttopdf is not enabled, don't add the texttopdf option in
+cupsfilters-individual.convs
+---
+ .gitignore                                           |  1 +
+ Makefile.am                                          |  5 ++++-
+ configure.ac                                         | 12 ++++++++++++
+ ...ividual.convs => cupsfilters-individual.convs.in} |  2 +-
+ 4 files changed, 18 insertions(+), 2 deletions(-)
+ rename mime/{cupsfilters-individual.convs => cupsfilters-individual.convs.in} (97%)
+
+diff --git a/Makefile.am b/Makefile.am
+index 0da4b8edc..f4ff7a1a3 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -195,7 +195,6 @@ pkgfilter_PROGRAMS += \
+ endif
+ pkgfilter_PROGRAMS += \
+ 	pdftops \
+-	texttopdf \
+ 	pwgtopclm \
+ 	pwgtopdf \
+ 	bannertopdf \
+@@ -210,6 +209,10 @@ if ENABLE_PSTOPS
+ pkgfilter_PROGRAMS += \
+ 	pstops
+ endif
++if ENABLE_TEXTTOPDF
++pkgfilter_PROGRAMS += \
++	texttopdf
++endif
+ if ENABLE_POPPLER
+ pkgfilter_PROGRAMS += \
+ 	pdftoraster
+diff --git a/configure.ac b/configure.ac
+index e77cb4b5e..3fed334bc 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -305,6 +305,16 @@ AC_ARG_ENABLE([pstops],
+ )
+ AM_CONDITIONAL([ENABLE_PSTOPS], [test "x$enable_pstops" = "xyes"])
+ 
++# ===================
++# Check for texttopdf
++# ===================
++AC_ARG_ENABLE([texttopdf],
++	[AS_HELP_STRING([--disable-texttopdf], [Disable the texttopdf filter.])],
++	[enable_texttopdf="$enableval"],
++	[enable_texttopdf=yes]
++)
++AM_CONDITIONAL([ENABLE_TEXTTOPDF], [test "x$enable_texttopdf" = "xyes"])
++
+ # =====================
+ # Check for rastertopwg
+ # =====================
+@@ -373,6 +383,7 @@ AC_DEFINE_UNQUOTED([SHELL], "$with_shell", [Path for a modern shell])
+ AC_CONFIG_FILES([
+ 	Makefile
+ 	filter/foomatic-rip/foomatic-rip.1
++	mime/cupsfilters-individual.convs
+ ])
+ AC_OUTPUT
+ 
+@@ -395,6 +406,7 @@ Build configuration:
+ 	ippfind-path:    ${with_ippfind_path}
+ 	imagefilters:    ${enable_imagefilters}
+ 	pstops:          ${enable_pstops}
++	texttopdf:       ${enable_texttopdf}
+ 	rastertopwg:     ${enable_rastertopwg}
+ 	shell:           ${with_shell}
+ 	universal CUPS filter: ${enable_universal_cups_filter}
+diff --git a/mime/cupsfilters-individual.convs b/mime/cupsfilters-individual.convs.in
+similarity index 97%
+rename from mime/cupsfilters-individual.convs
+rename to mime/cupsfilters-individual.convs.in
+index f9985c1a8..299693485 100644
+--- a/mime/cupsfilters-individual.convs
++++ b/mime/cupsfilters-individual.convs.in
+@@ -39,7 +39,7 @@
+ #
+ 
+ application/pdf		application/vnd.cups-pdf		66	pdftopdf
+-text/plain		application/pdf				32	texttopdf
++@ENABLE_TEXTTOPDF_TRUE@text/plain		application/pdf				32	texttopdf
+ image/pwg-raster	application/pdf				32	pwgtopdf
+ image/png		application/vnd.cups-pdf		65	imagetopdf
+ image/jpeg		application/vnd.cups-pdf		65	imagetopdf

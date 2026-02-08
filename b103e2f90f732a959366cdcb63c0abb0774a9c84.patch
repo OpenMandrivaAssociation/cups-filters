@@ -1,0 +1,24 @@
+From b103e2f90f732a959366cdcb63c0abb0774a9c84 Mon Sep 17 00:00:00 2001
+From: Zdenek Dohnal <zdohnal@redhat.com>
+Date: Mon, 10 Nov 2025 12:46:52 +0100
+Subject: [PATCH] foomatic-hash: Fix return value for --ppd-paths without
+ libppd
+
+We should return non-zero value if we don't build with libppd.
+---
+ filter/foomatic-rip/foomatic-hash.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/filter/foomatic-rip/foomatic-hash.c b/filter/foomatic-rip/foomatic-hash.c
+index 6e563870f..4fcffb6c9 100644
+--- a/filter/foomatic-rip/foomatic-hash.c
++++ b/filter/foomatic-rip/foomatic-hash.c
+@@ -463,7 +463,7 @@ get_values_from_ppdpaths(cups_array_t *data,     // O - Array of found values
+ #else
+   fprintf(stdout, "foomatic-hash is not compiled with LIBPPD support.\n");
+ 
+-  return (0);
++  return (1);
+ #endif // HAVE_LIBPPD
+ }
+ 

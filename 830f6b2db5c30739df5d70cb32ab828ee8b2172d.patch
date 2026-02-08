@@ -1,0 +1,23 @@
+From 830f6b2db5c30739df5d70cb32ab828ee8b2172d Mon Sep 17 00:00:00 2001
+From: Zdenek Dohnal <zdohnal@redhat.com>
+Date: Thu, 9 Oct 2025 19:13:17 +0200
+Subject: [PATCH] foomatic-rip: Handle NULL in value in config_set_option()
+
+---
+ filter/foomatic-rip/foomaticrip.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/filter/foomatic-rip/foomaticrip.c b/filter/foomatic-rip/foomaticrip.c
+index a92b1e687..df4e3f1d1 100644
+--- a/filter/foomatic-rip/foomaticrip.c
++++ b/filter/foomatic-rip/foomaticrip.c
+@@ -125,6 +125,9 @@ void
+ config_set_option(const char *key,
+ 		  const char *value)
+ {
++  if (!value)
++    return;
++
+   if (strcmp(key, "debug") == 0)
+     debug = atoi(value);
+ 

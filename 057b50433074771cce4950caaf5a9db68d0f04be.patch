@@ -1,0 +1,107 @@
+From 057b50433074771cce4950caaf5a9db68d0f04be Mon Sep 17 00:00:00 2001
+From: zdohnal <zdohnal@redhat.com>
+Date: Thu, 9 Oct 2025 18:40:51 +0200
+Subject: [PATCH] foomatic-rip: Allocate modern_shell dynamically (#659)
+
+---
+ filter/foomatic-rip/foomaticrip.c | 25 ++++++++++++++++++++++++-
+ filter/foomatic-rip/process.c     |  2 +-
+ filter/foomatic-rip/process.h     |  2 +-
+ filter/foomatic-rip/util.c        |  1 +
+ 4 files changed, 27 insertions(+), 3 deletions(-)
+
+diff --git a/filter/foomatic-rip/foomaticrip.c b/filter/foomatic-rip/foomaticrip.c
+index 2e892cb80..a92b1e687 100644
+--- a/filter/foomatic-rip/foomaticrip.c
++++ b/filter/foomatic-rip/foomaticrip.c
+@@ -138,7 +138,19 @@ config_set_option(const char *key,
+   else if (strcmp(key, "cupsfilterpath") == 0)
+     strlcpy(cupsfilterpath, value, PATH_MAX);
+   else if (strcmp(key, "preferred_shell") == 0)
+-    strlcpy(modern_shell, value, 32);
++  {
++    if (strlen(modern_shell) < strlen(value))
++    {
++      char *tmp = NULL;
++
++      if ((tmp = (char*)realloc(modern_shell, strlen(value) + 1)) == NULL)
++        rip_die(1, "ERROR: modern_shell: not enough memory to realloc");
++
++      modern_shell = tmp;
++    }
++
++    snprintf(modern_shell, strlen(value) + 1, "%s", value);
++  }
+   else if (strcmp(key, "gspath") == 0)
+     strlcpy(gspath, value, PATH_MAX);
+   else if (strcmp(key, "echo") == 0)
+@@ -782,6 +794,7 @@ main(int argc,
+   data->logdata = NULL;
+   data->logfunc = cfCUPSLogFunc;
+   arglist = list_create_from_array(argc -1, (void**)&argv[1]);
++  modern_shell = NULL;
+ 
+   if (argc == 2 && (arglist_find(arglist, "--version") ||
+ 		    arglist_find(arglist, "--help") ||
+@@ -794,6 +807,15 @@ main(int argc,
+     return (0);
+   }
+ 
++  if ((modern_shell = (char*)calloc(strlen(SHELL) + 1, sizeof(char*))) == NULL)
++  {
++    printf("ERROR: modern_shell - not enough memory.\n");
++    list_free(arglist);
++    return (1);
++  }
++
++  snprintf(modern_shell, strlen(SHELL) + 1, "%s", SHELL);
++
+   filelist = create_dstr();
+   job = create_job();
+ 
+@@ -1225,6 +1247,7 @@ main(int argc,
+ 
+   argv_free(jclprepend);
+   free_dstr(jclappend);
++  free(modern_shell);
+ 
+   list_free(arglist);
+ 
+diff --git a/filter/foomatic-rip/process.c b/filter/foomatic-rip/process.c
+index fc8e81cc7..35a1bfac3 100644
+--- a/filter/foomatic-rip/process.c
++++ b/filter/foomatic-rip/process.c
+@@ -22,7 +22,7 @@
+ 
+ int kidgeneration = 0;
+ 
+-char modern_shell[] = SHELL;
++char *modern_shell;
+ 
+ struct process
+ {
+diff --git a/filter/foomatic-rip/process.h b/filter/foomatic-rip/process.h
+index db597bcef..7a28e4e52 100644
+--- a/filter/foomatic-rip/process.h
++++ b/filter/foomatic-rip/process.h
+@@ -18,7 +18,7 @@
+ #include <sys/wait.h>
+ 
+ 
+-extern char modern_shell[];
++extern char *modern_shell;
+ 
+ pid_t start_process(const char *name, int (*proc_func)(FILE*, FILE*, void*), void *user_arg,
+ 		    FILE **fdin, FILE **fdout);
+diff --git a/filter/foomatic-rip/util.c b/filter/foomatic-rip/util.c
+index ad79fbf9c..9a2124d17 100644
+--- a/filter/foomatic-rip/util.c
++++ b/filter/foomatic-rip/util.c
+@@ -84,6 +84,7 @@ rip_die(int status,
+ 
+   _log("Cleaning up...\n");
+   kill_all_processes();
++  free(modern_shell);
+ 
+   exit(status);
+ }

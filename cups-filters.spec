@@ -22,15 +22,11 @@ Source0:	%{name}-%{scmrev}.tar.xz
 %endif
 %endif
 Source100:	%{name}.rpmlintrc
-Patch0:		cups-filters-1.28.11-clangwarnings.patch
-# Can't use C++17 string_view in C++11 mode with clang 16...
-#Patch1:		cups-filters-c++17.patch
 Summary:	Print filters for use with CUPS
 URL:		https://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
 Group:		System/Printing
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	pkgconfig(com_err)
@@ -72,6 +68,22 @@ Requires:	bc
 Conflicts:	cups < 1.7-0.rc1.2
 Requires(post,postun):	cups
 
+%patchlist
+cups-filters-1.28.11-clangwarnings.patch
+# Can't use C++17 string_view in C++11 mode with clang 16...
+#cups-filters-c++17.patch
+# From upstream
+https://github.com/OpenPrinting/cups-filters/commit/9871a50b5c1f9c2caa2754aac1f5db70c886021b.patch
+https://github.com/OpenPrinting/cups-filters/commit/6f811dc27a0de8a731bc85097a181a056454f7dd.patch
+https://github.com/OpenPrinting/cups-filters/commit/41c5f2f6139e4d3693c2483ee4281202a80ae451.patch
+https://github.com/OpenPrinting/cups-filters/commit/c5ea5f5cf3198ca4f63889f818fac966700604ee.patch
+https://github.com/OpenPrinting/cups-filters/commit/9e8572578a09fa8a298023c370e407a3fce58175.patch
+https://github.com/OpenPrinting/cups-filters/commit/057b50433074771cce4950caaf5a9db68d0f04be.patch
+https://github.com/OpenPrinting/cups-filters/commit/830f6b2db5c30739df5d70cb32ab828ee8b2172d.patch
+https://github.com/OpenPrinting/cups-filters/commit/c79ee4b56f81fb3afbaf68ce96308ba52eed9a62.patch
+https://github.com/OpenPrinting/cups-filters/commit/b103e2f90f732a959366cdcb63c0abb0774a9c84.patch
+https://github.com/OpenPrinting/cups-filters/commit/0fe46c511e81062575b05936f804eb18c9f0a011.patch
+
 %description
 This project provides backends, filters, and other software that was once part
 of the core CUPS distribution but is no longer maintained by Apple Inc.
@@ -89,6 +101,7 @@ of CUPS 1.5.x and older.
 %else
 %autosetup -p1 -n %{name}
 %endif
+sed -i -e 's,glibtoolize,slibtoolize,g' autogen.sh
 ./autogen.sh
 
 %configure \
@@ -124,6 +137,7 @@ fi
 
 %files
 %doc %{_docdir}/%{name}
+%{_bindir}/foomatic-hash
 %{_bindir}/foomatic-rip
 %{_bindir}/driverless
 %{_bindir}/driverless-fax
@@ -134,6 +148,7 @@ fi
 %{_datadir}/cups/mime/cupsfilters-universal*
 %{_datadir}/cups/mime/cupsfilters.*
 %{_datadir}/cups/drv/*
+%{_mandir}/man1/foomatic-hash.1*
 %{_mandir}/man1/foomatic-rip.1*
 %{_mandir}/man1/driverless.1*
 %{_datadir}/ppdc

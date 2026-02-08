@@ -1,0 +1,85 @@
+From 9e8572578a09fa8a298023c370e407a3fce58175 Mon Sep 17 00:00:00 2001
+From: Titiksha Bansal <129615682+TitikshaBansal@users.noreply.github.com>
+Date: Fri, 1 Aug 2025 00:03:53 +0530
+Subject: [PATCH] =?UTF-8?q?Add=20MIME=20Type=20Definitions=20for=20JPEG?=
+ =?UTF-8?q?=E2=80=91XL=20Support=20(#651)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Added and updated the code for jpegxl support:
+* Updated cupsfilters-individual.convs.in
+* Updated cupsfilters-universal.convs
+* Updated cupsfilters.types
+* Updated configure.ac
+---
+ configure.ac                         | 9 +++++++++
+ mime/cupsfilters-individual.convs.in | 2 ++
+ mime/cupsfilters-universal.convs     | 1 +
+ mime/cupsfilters.types               | 1 +
+ 4 files changed, 13 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index 2d4b147e2..a73ad995d 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -117,6 +117,15 @@ AC_SUBST(CUPS_SERVERBIN)
+ # ========================
+ PKG_CHECK_MODULES([LIBCUPSFILTERS], [libcupsfilters])
+ 
++======================
++# Check for libjxl (JPEG-XL)
++# ======================
++PKG_CHECK_MODULES([LIBJXL], [libjxl >= 0.7.0],
++  [have_libjxl=yes],
++  [have_libjxl=no]
++)
++AM_CONDITIONAL([HAVE_LIBJXL], [test "x$have_libjxl" = "xyes"])
++
+ # ================
+ # Check for libppd
+ # ================
+diff --git a/mime/cupsfilters-individual.convs.in b/mime/cupsfilters-individual.convs.in
+index 299693485..3e6795953 100644
+--- a/mime/cupsfilters-individual.convs.in
++++ b/mime/cupsfilters-individual.convs.in
+@@ -43,6 +43,7 @@ application/pdf		application/vnd.cups-pdf		66	pdftopdf
+ image/pwg-raster	application/pdf				32	pwgtopdf
+ image/png		application/vnd.cups-pdf		65	imagetopdf
+ image/jpeg		application/vnd.cups-pdf		65	imagetopdf
++@HAVE_LIBJXL_TRUE@image/jxl		application/vnd.cups-pdf		65	imagetopdf
+ image/tiff		application/vnd.cups-pdf		65	imagetopdf
+ application/vnd.cups-pdf-banner	application/pdf			32	bannertopdf
+ image/urf		application/pdf				0	pwgtopdf
+@@ -75,6 +76,7 @@ application/vnd.adobe-reader-postscript	application/vnd.cups-postscript	66	pstop
+ application/PCLm		application/vnd.cups-raster	32	pclmtoraster
+ image/png			application/vnd.cups-raster	100	imagetoraster
+ image/jpeg			application/vnd.cups-raster	100	imagetoraster
++@HAVE_LIBJXL_TRUE@image/jxl			application/vnd.cups-raster	100	imagetoraster
+ image/tiff			application/vnd.cups-raster	100	imagetoraster
+ image/pwg-raster		application/vnd.cups-raster	100	pwgtoraster
+ image/urf			application/vnd.cups-raster	100	pwgtoraster
+diff --git a/mime/cupsfilters-universal.convs b/mime/cupsfilters-universal.convs
+index 00cca4544..9bd2a9cab 100644
+--- a/mime/cupsfilters-universal.convs
++++ b/mime/cupsfilters-universal.convs
+@@ -32,6 +32,7 @@
+ #
+ 
+ image/jpeg                      application/vnd.universal-input      0    -
++@HAVE_LIBJXL_TRUE@image/jxl     application/vnd.universal-input      0    -
+ image/png                       application/vnd.universal-input      0    -
+ image/tiff                      application/vnd.universal-input      0    -
+ image/pwg-raster                application/vnd.universal-input      0    -
+diff --git a/mime/cupsfilters.types b/mime/cupsfilters.types
+index 19d7fe265..b4e0db48d 100644
+--- a/mime/cupsfilters.types
++++ b/mime/cupsfilters.types
+@@ -91,6 +91,7 @@ image/x-xbitmap			xbm string(0,"#define");
+ image/x-xpixmap			xpm string(3,"XPM")
+ image/x-xwindowdump		xwd string(4,<00000007>)
+ image/urf			urf string(0,UNIRAST<00>)
++@HAVE_LIBJXL_TRUE@image/jxl	jxl string(0,"<0000000C4A584C20>") string(0,"<FF0A>")
+ 
+ ########################################################################
+ #
