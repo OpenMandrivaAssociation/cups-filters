@@ -6,7 +6,7 @@ Name:		cups-filters
 Version:	2.0.1
 %if "%{beta}" == ""
 %if "%{scmrev}" == ""
-Release:	1
+Release:	2
 Source0:	https://github.com/OpenPrinting/cups-filters/releases/download/%{version}/cups-filters-%{version}.tar.xz
 %else
 Release:	0.%{scmrev}1
